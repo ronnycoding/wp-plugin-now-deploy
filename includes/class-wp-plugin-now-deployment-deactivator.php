@@ -31,8 +31,7 @@ class Wp_Plugin_Now_Deployment_Deactivator {
 	 */
 	public static function deactivate() {
 		if ( ! current_user_can( 'activate_plugins' ) ) return;
-		// flush_rewrite_rules();
-		delete_option( 'wp_plugin_now_deployment_options' );
+		flush_rewrite_rules();
 	}
 
 }
