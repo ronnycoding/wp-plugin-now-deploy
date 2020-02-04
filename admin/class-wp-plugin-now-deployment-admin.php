@@ -179,7 +179,14 @@ class Wp_Plugin_Now_Deployment_Admin {
 	{
 		$options = get_option('wp_plugin_now_deployment_options');
 		?>
-			<p id="wp_plugin_now_deployment_webhook"><?php echo date("l jS \of F Y h:i:s A", $options['last_deploy']) ?: __("Make your first deploy!") ?></p>
+			<p id="wp_plugin_now_deployment_webhook">
+			<?php
+				if (!empty($options['last_deploy'])) {
+					echo date("l jS \of F Y h:i:s A", $options['last_deploy']);
+				} else {
+					echo __("Make your first deploy!");
+				}
+			?></p>
 		<?php
 	}
 
