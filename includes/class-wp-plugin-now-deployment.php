@@ -160,6 +160,7 @@ class Wp_Plugin_Now_Deployment {
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_submenu_page' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'settings_page_init' );
 		$this->loader->add_action( 'removable_query_args', $plugin_admin, 'remove_query_args' );
+		$this->loader->add_action( 'save_post', $plugin_admin, 'register_auto_deploy' );
 	}
 
 	/**

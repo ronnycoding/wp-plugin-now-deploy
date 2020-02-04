@@ -110,8 +110,8 @@ class Wp_Plugin_Now_Deployment_Admin {
 	public function add_submenu_page() {
 		add_submenu_page(
 			'options-general.php',
-			__('WP Plugin Now Deployment', 'wp-plugin-now-deployment'),
-			__('WP Plugin Now Deployment', 'wp-plugin-now-deployment'),
+			__('WP Plugin Now Deploy', 'wp-plugin-now-deployment'),
+			__('WP Plugin Now Deploy', 'wp-plugin-now-deployment'),
 			'manage_options',
 			'wp-plugin-now-deployment-admin-display',
 			array(&$this, 'get_submenu_page_partial')
@@ -122,13 +122,15 @@ class Wp_Plugin_Now_Deployment_Admin {
 		require_once plugin_dir_path( __FILE__ ) . 'partials/wp-plugin-now-deployment-admin-display.php';
 	}
 
-	public function handle_settings($args) {
+	public function handle_settings() {
 		$options = get_option('wp_plugin_now_deployment_options');
+
 		if (!empty($_GET['deploy']) && $_GET['deploy'] === 'yes' && !empty($options['webhook']) && !empty($options['enable_deploy']) && $options['enable_deploy'] === 'on') {
 			$response = wp_remote_get( Wp_Plugin_Now_Deployment_Admin::URL_BASE_HOOK . $options['webhook'] );
 			try {
-				$json = json_decode($response['body']);
 				if (!empty($response['response']['code']) && $response['response']['code'] === 201) {
+					$options['last_deploy'] = strtotime("now");
+					update_option('wp_plugin_now_deployment_options', $options);
 					?>
 					<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible"> 
 						<p><strong><?php echo __('Deploy Successfully Created!', 'wp-plugin-now-deployment'); ?></strong></p>
@@ -162,13 +164,14 @@ class Wp_Plugin_Now_Deployment_Admin {
 		add_settings_field("wp_plugin_now_deployment_webhook", __("Webhook", "wp-plugin-now-deployment"), array(&$this, "display_now_webhook"), "wp-plugin-now-deployment-admin-display", "wp-plugin-now-deployment-webhook-section");
 		add_settings_field("wp_plugin_now_deployment_webhook_last_deploy", __("Last deploy", "wp-plugin-now-deployment"), array(&$this, "display_now_webhook_last_deploy"), "wp-plugin-now-deployment-admin-display", "wp-plugin-now-deployment-webhook-section");
 		add_settings_field("wp_plugin_now_deployment_webhook_deploy", __("Enable deploy", "wp-plugin-now-deployment"), array(&$this, "display_now_webhook_deploy"), "wp-plugin-now-deployment-admin-display", "wp-plugin-now-deployment-webhook-section");
+		add_settings_field("wp_plugin_now_deployment_enable_auto_deploy", __("Auto Deploy", "wp-plugin-now-deployment"), array(&$this, "display_now_auto_deploy"), "wp-plugin-now-deployment-admin-display", "wp-plugin-now-deployment-webhook-section");
 	}
 
 	public function display_now_webhook()
 	{
 		$options = get_option('wp_plugin_now_deployment_options');
 		?>
-			<input type="text" name="wp_plugin_now_deployment_options[webhook]" id="wp_plugin_now_deployment_webhook" value="<?php echo $options['webhook'] ?: ''; ?>" />
+			<input type="text" name="wp_plugin_now_deployment_options[webhook]" id="wp_plugin_now_deployment_webhook" value="<?php echo $options['webhook'] ?: ''; ?>" required/>
 		<?php
 	}
 
@@ -176,7 +179,7 @@ class Wp_Plugin_Now_Deployment_Admin {
 	{
 		$options = get_option('wp_plugin_now_deployment_options');
 		?>
-			<p id="wp_plugin_now_deployment_webhook"><?php echo $options['last_deploy'] ?: __("Make your first deploy!") ?></p>
+			<p id="wp_plugin_now_deployment_webhook"><?php echo date("l jS \of F Y h:i:s A", $options['last_deploy']) ?: __("Make your first deploy!") ?></p>
 		<?php
 	}
 
@@ -186,10 +189,21 @@ class Wp_Plugin_Now_Deployment_Admin {
 		echo "<input ".$checked." id='wp_plugin_now_deployment_webhook_enable_deploy' name='wp_plugin_now_deployment_options[enable_deploy]' type='checkbox' />";
 	}
 
+	public function display_now_auto_deploy() {
+		$options = get_option('wp_plugin_now_deployment_options');
+		if(isset($options['enable_auto_deploy']) && $options['enable_auto_deploy']) { $checked = ' checked="checked" '; }
+		echo "<input ".$checked." id='wp_plugin_now_deployment_enable_auto_deploy' name='wp_plugin_now_deployment_options[enable_auto_deploy]' type='checkbox' />";
+	}
+
 	public function set_options() {
 		$tmp = get_option('wp_plugin_now_deployment_options');
-		if(!is_array($tmp)) {
-			$arr = array('enable_deploy' => '', 'webhook' => '', 'last_deploy' => '');
+		if(empty($tmp)) {
+			$arr = array(
+				'enable_deploy' => '',
+				'webhook' => '',
+				'last_deploy' => '',
+				'enable_auto_deploy' => ''
+			);
 			update_option('wp_plugin_now_deployment_options', $arr);
 		}
 	}
@@ -197,5 +211,21 @@ class Wp_Plugin_Now_Deployment_Admin {
 	public function remove_query_args($removable_url_params) {
 		$remove_params = array('deploy');
 		return array_merge($remove_params, $removable_url_params);
+	}
+
+	public function register_auto_deploy() {
+		$options = get_option('wp_plugin_now_deployment_options');
+		$url_origin_request = parse_url($_SERVER['REQUEST_URI']);
+		if(isset($options['enable_auto_deploy']) && $options['enable_auto_deploy']) {
+			$response = wp_remote_get( Wp_Plugin_Now_Deployment_Admin::URL_BASE_HOOK . $options['webhook'] );
+			try {
+				if (!empty($response['response']['code']) && $response['response']['code'] === 201) {
+					$options['last_deploy'] = strtotime("now");
+					update_option('wp_plugin_now_deployment_options', $options);
+				}
+			} catch ( Exception $ex ) {
+				echo $ex->getMessage();
+			}
+		}
 	}
 }

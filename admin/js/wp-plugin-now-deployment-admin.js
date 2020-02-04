@@ -31,6 +31,10 @@
 	$( window ).load(function() {
 		$('#submitDeploy').on('click', function(e) {
 			e.preventDefault();
+			if (!$('#wp_plugin_now_deployment_webhook_enable_deploy').is(":checked")) {
+				alert('Enable deploy should be checked and saved before deploy.')
+				return;
+			}
 			var url = document.location.href.indexOf("&deploy=yes") > -1 ? document.location.href : document.location.href+"&deploy=yes";
       document.location.href = url;
 		});
