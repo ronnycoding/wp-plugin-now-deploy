@@ -30,5 +30,4 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-delete_option( 'wp_plugin_now_deployment_webhook' );
-delete_option( 'wp_plugin_now_deployment_webhook_last_deploy' );
+delete_option( 'wp_plugin_now_deployment_options' );

@@ -28,5 +28,12 @@
 	 * Although scripts in the WordPress core, Plugins and Themes may be
 	 * practising this, we should strive to set a better example in our own work.
 	 */
+	$( window ).load(function() {
+		$('#submitDeploy').on('click', function(e) {
+			e.preventDefault();
+			var url = document.location.href.indexOf("&deploy=yes") > -1 ? document.location.href : document.location.href+"&deploy=yes";
+      document.location.href = url;
+		});
+	});
 
 })( jQuery );

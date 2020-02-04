@@ -2,3 +2,6 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+ input#wp_plugin_now_deployment_webhook {
+  width: 100%;
+}

@@ -22,6 +22,8 @@
  */
 class Wp_Plugin_Now_Deployment_Admin {
 
+	const URL_BASE_HOOK = 'https://api.zeit.co/v1/integrations/deploy/';
+
 	/**
 	 * The ID of this plugin.
 	 *
@@ -120,18 +122,80 @@ class Wp_Plugin_Now_Deployment_Admin {
 		require_once plugin_dir_path( __FILE__ ) . 'partials/wp-plugin-now-deployment-admin-display.php';
 	}
 
+	public function handle_settings($args) {
+		$options = get_option('wp_plugin_now_deployment_options');
+		if (!empty($_GET['deploy']) && $_GET['deploy'] === 'yes' && !empty($options['webhook']) && !empty($options['enable_deploy']) && $options['enable_deploy'] === 'on') {
+			$response = wp_remote_get( Wp_Plugin_Now_Deployment_Admin::URL_BASE_HOOK . $options['webhook'] );
+			try {
+				$json = json_decode($response['body']);
+				if (!empty($response['response']['code']) && $response['response']['code'] === 201) {
+					?>
+					<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible"> 
+						<p><strong><?php echo __('Deploy Successfully Created!', 'wp-plugin-now-deployment'); ?></strong></p>
+						<button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>
+					</div>
+					<?php
+				} else {
+					?>
+					<div id="setting-error-settings_updated" class="notice notice-error settings-error is-dismissible"> 
+						<p><strong><?php echo __('Your Webhook ID is invalid!', 'wp-plugin-now-deployment'); ?></strong></p>
+						<button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>
+					</div>
+					<?php
+				}
+			} catch ( Exception $ex ) {
+				?>
+				<div id="setting-error-settings_updated" class="notice notice-error settings-error is-dismissible"> 
+					<p><strong><?php echo __('Unexpected Error', 'wp-plugin-now-deployment'); ?></strong></p>
+					<button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>
+				</div>
+				<?php
+			}
+		}
+	}
+
 	public function settings_page_init() {
 		// check if user is allowed access
 		if ( ! current_user_can( 'manage_options' ) ) return;
-		add_settings_section("wp-plugin-now-deployment-webhook-section", "All Settings", null, "wp-plugin-now-deployment-admin-display");
-		add_settings_field("wp_plugin_now_deployment_webhook", "Now Deploy Webhook", array(&$this, "display_now_webhook"), "wp-plugin-now-deployment-admin-display", "wp-plugin-now-deployment-webhook-section");
-		register_setting("wp-plugin-now-deployment-webhook-section", "wp_plugin_now_deployment_webhook");
+		register_setting("wp-plugin-now-deployment-webhook-section", "wp_plugin_now_deployment_options");
+		add_settings_section("wp-plugin-now-deployment-webhook-section", null, array(&$this, "handle_settings"), "wp-plugin-now-deployment-admin-display");
+		add_settings_field("wp_plugin_now_deployment_webhook", __("Webhook", "wp-plugin-now-deployment"), array(&$this, "display_now_webhook"), "wp-plugin-now-deployment-admin-display", "wp-plugin-now-deployment-webhook-section");
+		add_settings_field("wp_plugin_now_deployment_webhook_last_deploy", __("Last deploy", "wp-plugin-now-deployment"), array(&$this, "display_now_webhook_last_deploy"), "wp-plugin-now-deployment-admin-display", "wp-plugin-now-deployment-webhook-section");
+		add_settings_field("wp_plugin_now_deployment_webhook_deploy", __("Enable deploy", "wp-plugin-now-deployment"), array(&$this, "display_now_webhook_deploy"), "wp-plugin-now-deployment-admin-display", "wp-plugin-now-deployment-webhook-section");
 	}
 
 	public function display_now_webhook()
 	{
+		$options = get_option('wp_plugin_now_deployment_options');
 		?>
-			<input type="text" name="wp_plugin_now_deployment_webhook" id="wp_plugin_now_deployment_webhook" value="<?php echo get_option('wp_plugin_now_deployment_webhook'); ?>" />
+			<input type="text" name="wp_plugin_now_deployment_options[webhook]" id="wp_plugin_now_deployment_webhook" value="<?php echo $options['webhook'] ?: ''; ?>" />
 		<?php
+	}
+
+	public function display_now_webhook_last_deploy()
+	{
+		$options = get_option('wp_plugin_now_deployment_options');
+		?>
+			<p id="wp_plugin_now_deployment_webhook"><?php echo $options['last_deploy'] ?: __("Make your first deploy!") ?></p>
+		<?php
+	}
+
+	public function display_now_webhook_deploy() {
+		$options = get_option('wp_plugin_now_deployment_options');
+		if(isset($options['enable_deploy']) && $options['enable_deploy']) { $checked = ' checked="checked" '; }
+		echo "<input ".$checked." id='wp_plugin_now_deployment_webhook_enable_deploy' name='wp_plugin_now_deployment_options[enable_deploy]' type='checkbox' />";
+	}
+
+	public function set_options() {
+		$tmp = get_option('wp_plugin_now_deployment_options');
+		if(!is_array($tmp)) {
+			$arr = array('enable_deploy' => '', 'webhook' => '', 'last_deploy' => '');
+			update_option('wp_plugin_now_deployment_options', $arr);
+		}
+	}
+
+	public function remove_query_args($removable_url_params) {
+		$remove_params = array('deploy');
+		return array_merge($remove_params, $removable_url_params);
 	}
 }

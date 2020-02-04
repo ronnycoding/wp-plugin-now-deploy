@@ -31,8 +31,7 @@ class Wp_Plugin_Now_Deployment_Activator {
 	 */
 	public static function activate() {
 		if ( ! current_user_can( 'activate_plugins' ) ) return;
-		add_option( 'wp_plugin_now_deployment_webhook' );
-		add_option( 'wp_plugin_now_deployment_webhook_last_deploy' );
+		add_option( 'wp_plugin_now_deployment_options' );
 	}
 
 }

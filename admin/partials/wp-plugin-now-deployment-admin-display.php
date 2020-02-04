@@ -27,5 +27,6 @@
     // submit button
     submit_button();
     ?>
+    <input type="submit" id="submitDeploy" class="button button-primary" value="<?php echo __('Build Site', 'wp-plugin-now-deployment'); ?>">
   </form>
 </div>
