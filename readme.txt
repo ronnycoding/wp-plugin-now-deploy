@@ -24,9 +24,9 @@ Enter enter your Webhook ID on Zeit
 Read the documentation to get started
 
 == Screenshots ==
-1. https://github.com/ronnyiscoding/wp-plugin-now-deploy/blob/2bc6102f146b4bc21421bbfa9df3fa6ee88a391a/demo/ScreenShot2020-02-04at6.02.58PM.png?raw=true
-2. https://github.com/ronnyiscoding/wp-plugin-now-deploy/blob/master/demo/ScreenShot2020-02-04at6.03.32PM.png?raw=true
-3. https://github.com/ronnyiscoding/wp-plugin-now-deploy/blob/2bc6102f146b4bc21421bbfa9df3fa6ee88a391a/demo/ScreenShot2020-02-04at8.25.33PM.pngraw=true
+1. https://raw.githubusercontent.com/ronnyiscoding/wp-plugin-now-deploy/master/demo/Screen%20Shot%202020-02-04%20at%206.02.58%20PM.png
+2. https://raw.githubusercontent.com/ronnyiscoding/wp-plugin-now-deploy/master/demo/Screen%20Shot%202020-02-04%20at%206.03.32%20PM.png
+3. https://raw.githubusercontent.com/ronnyiscoding/wp-plugin-now-deploy/master/demo/Screen%20Shot%202020-02-04%20at%208.25.33%20PM.png
 
 == Upgrade Notice ==
 1.0.0 Initial Release
