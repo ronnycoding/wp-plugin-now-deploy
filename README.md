@@ -16,6 +16,13 @@
 
 Easily deploy static sites using WordPress and Zeit (now).
 
+## Demo
+
+![Submenu option](https://github.com/ronnyiscoding/wp-plugin-now-deploy/blob/master/demo/Screen%20Shot%202020-02-04%20at%206.02.58%20PM.png?raw=true "Submenu option located on Settings")
+
+![Setting Dashboard](https://github.com/ronnyiscoding/wp-plugin-now-deploy/blob/master/demo/Screen%20Shot%202020-02-04%20at%206.03.32%20PM.png?raw=true "A setting dashboard")
+
+
 ## Contributing
 
 Read the [contributing guidelines](https://make.wordpress.org/core/handbook/contribute) for details.
