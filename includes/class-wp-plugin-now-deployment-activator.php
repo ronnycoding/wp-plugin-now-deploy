@@ -1,8 +1,6 @@
 <?php
 
 /**
- * Fired during plugin activation
- *
  * @link       https://rfreites.now.sh
  * @since      1.0.0
  *
@@ -11,10 +9,6 @@
  */
 
 /**
- * Fired during plugin activation.
- *
- * This class defines all code necessary to run during the plugin's activation.
- *
  * @since      1.0.0
  * @package    Wp_Plugin_Now_Deployment
  * @subpackage Wp_Plugin_Now_Deployment/includes
@@ -23,10 +17,6 @@
 class Wp_Plugin_Now_Deployment_Activator {
 
 	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
 	 * @since    1.0.0
 	 */
 	public static function activate() {

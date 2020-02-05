@@ -1,8 +1,6 @@
 <?php
 
 /**
- * Register all actions and filters for the plugin
- *
  * @link       https://rfreites.now.sh
  * @since      1.0.0
  *
@@ -11,12 +9,6 @@
  */
 
 /**
- * Register all actions and filters for the plugin.
- *
- * Maintain a list of all hooks that are registered throughout
- * the plugin, and register them with the WordPress API. Call the
- * run function to execute the list of actions and filters.
- *
  * @package    Wp_Plugin_Now_Deployment
  * @subpackage Wp_Plugin_Now_Deployment/includes
  * @author     Ronny Freites <ronnyangelo.freites@gmail.com>
@@ -24,8 +16,6 @@
 class Wp_Plugin_Now_Deployment_Loader {
 
 	/**
-	 * The array of actions registered with WordPress.
-	 *
 	 * @since    1.0.0
 	 * @access   protected
 	 * @var      array    $actions    The actions registered with WordPress to fire when the plugin loads.
@@ -33,8 +23,6 @@ class Wp_Plugin_Now_Deployment_Loader {
 	protected $actions;
 
 	/**
-	 * The array of filters registered with WordPress.
-	 *
 	 * @since    1.0.0
 	 * @access   protected
 	 * @var      array    $filters    The filters registered with WordPress to fire when the plugin loads.
@@ -42,8 +30,6 @@ class Wp_Plugin_Now_Deployment_Loader {
 	protected $filters;
 
 	/**
-	 * Initialize the collections used to maintain the actions and filters.
-	 *
 	 * @since    1.0.0
 	 */
 	public function __construct() {
@@ -54,8 +40,6 @@ class Wp_Plugin_Now_Deployment_Loader {
 	}
 
 	/**
-	 * Add a new action to the collection to be registered with WordPress.
-	 *
 	 * @since    1.0.0
 	 * @param    string               $hook             The name of the WordPress action that is being registered.
 	 * @param    object               $component        A reference to the instance of the object on which the action is defined.
@@ -68,8 +52,6 @@ class Wp_Plugin_Now_Deployment_Loader {
 	}
 
 	/**
-	 * Add a new filter to the collection to be registered with WordPress.
-	 *
 	 * @since    1.0.0
 	 * @param    string               $hook             The name of the WordPress filter that is being registered.
 	 * @param    object               $component        A reference to the instance of the object on which the filter is defined.
@@ -82,9 +64,6 @@ class Wp_Plugin_Now_Deployment_Loader {
 	}
 
 	/**
-	 * A utility function that is used to register the actions and hooks into a single
-	 * collection.
-	 *
 	 * @since    1.0.0
 	 * @access   private
 	 * @param    array                $hooks            The collection of hooks that is being registered (that is, actions or filters).
@@ -110,8 +89,6 @@ class Wp_Plugin_Now_Deployment_Loader {
 	}
 
 	/**
-	 * Register the filters and actions with WordPress.
-	 *
 	 * @since    1.0.0
 	 */
 	public function run() {

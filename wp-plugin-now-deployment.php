@@ -1,13 +1,6 @@
 <?php
 
 /**
- * The plugin bootstrap file
- *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
- *
  * @link              https://rfreites.now.sh
  * @since             1.0.0
  * @package           Wp_Plugin_Now_Deployment
@@ -15,7 +8,7 @@
  * @wordpress-plugin
  * Plugin Name:       WP Plugin Now Deployment
  * Plugin URI:        https://ronnyfreites.blog
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Easily deploy static sites using WordPress and Zeit (now)..
  * Version:           1.0.0
  * Author:            Ronny Freites
  * Author URI:        https://rfreites.now.sh
