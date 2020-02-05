@@ -69,8 +69,8 @@ class Wp_Plugin_Now_Deployment_Admin {
 	public function add_submenu_page() {
 		add_submenu_page(
 			'options-general.php',
-			__('WP Plugin Now Deploy', 'wp-plugin-now-deployment'),
-			__('WP Plugin Now Deploy', 'wp-plugin-now-deployment'),
+			__('Webhook Zeit Deploy', 'wp-plugin-now-deployment'),
+			__('Webhook Zeit Deploy', 'wp-plugin-now-deployment'),
 			'manage_options',
 			'wp-plugin-now-deployment-admin-display',
 			array(&$this, 'get_submenu_page_partial')
@@ -120,10 +120,10 @@ class Wp_Plugin_Now_Deployment_Admin {
 		if ( ! current_user_can( 'manage_options' ) ) return;
 		register_setting("wp-plugin-now-deployment-webhook-section", "wp_plugin_now_deployment_options");
 		add_settings_section("wp-plugin-now-deployment-webhook-section", null, array(&$this, "handle_settings"), "wp-plugin-now-deployment-admin-display");
-		add_settings_field("wp_plugin_now_deployment_webhook", __("Webhook", "wp-plugin-now-deployment"), array(&$this, "display_now_webhook"), "wp-plugin-now-deployment-admin-display", "wp-plugin-now-deployment-webhook-section");
+		add_settings_field("wp_plugin_now_deployment_webhook", __("Webhook ID", "wp-plugin-now-deployment"), array(&$this, "display_now_webhook"), "wp-plugin-now-deployment-admin-display", "wp-plugin-now-deployment-webhook-section");
 		add_settings_field("wp_plugin_now_deployment_webhook_last_deploy", __("Last deploy", "wp-plugin-now-deployment"), array(&$this, "display_now_webhook_last_deploy"), "wp-plugin-now-deployment-admin-display", "wp-plugin-now-deployment-webhook-section");
 		add_settings_field("wp_plugin_now_deployment_webhook_deploy", __("Enable deploy", "wp-plugin-now-deployment"), array(&$this, "display_now_webhook_deploy"), "wp-plugin-now-deployment-admin-display", "wp-plugin-now-deployment-webhook-section");
-		add_settings_field("wp_plugin_now_deployment_enable_auto_deploy", __("Auto Deploy", "wp-plugin-now-deployment"), array(&$this, "display_now_auto_deploy"), "wp-plugin-now-deployment-admin-display", "wp-plugin-now-deployment-webhook-section");
+		add_settings_field("wp_plugin_now_deployment_enable_auto_deploy", __("Auto Deploy on Save/Update content", "wp-plugin-now-deployment"), array(&$this, "display_now_auto_deploy"), "wp-plugin-now-deployment-admin-display", "wp-plugin-now-deployment-webhook-section");
 	}
 
 	public function display_now_webhook()

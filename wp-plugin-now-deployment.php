@@ -6,9 +6,9 @@
  * @package           Wp_Plugin_Now_Deployment
  *
  * @wordpress-plugin
- * Plugin Name:       WP Plugin Now Deployment
+ * Plugin Name:       Webhook Zeit Deploy
  * Plugin URI:        https://ronnyfreites.blog
- * Description:       Easily deploy static sites using WordPress and Zeit (now)..
+ * Description:       Easily deploy static sites using WordPress and Zeit.
  * Version:           1.0.0
  * Author:            Ronny Freites
  * Author URI:        https://rfreites.now.sh
